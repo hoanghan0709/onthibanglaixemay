@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body{
+    background-image: url("https://images.pexels.com/photos/7054528/pexels-photo-7054528.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+} 
+    .wrap_form{
+        display: flex;
+        justify-content: space-between;
+        max-width: 300px;
+    }
+     .a{
+         text-align: center;
+     }
+     .b{
+         margin-left: 50px;
+     }
+</style>
+<body>
+    <form class="b" action="javascript:void(0)" method="POST" id="myform" enctype="multipart/form-data" onsubmit="updateBaiThi('{{$baithi->id}}')">
+        @csrf 
+        <h2 class="a">SỬA BÀI THI</h2>
+        <a class="fas fa-home" href="/admin/listBaiThi">Quay Lại</a></br></br>
+        <div class="wrap_form">
+            <label for="">Tên bài thi</label>
+        <input type="text" name="tenBT" value="{{$baithi->TenBT}}">
+        </div>
+        <div class="wrap_form">
+            <label for="">Phút</label>
+        <input type="text" name="phut" value="{{$baithi->Phut}}">
+        </div>
+        <div class="wrap_form">
+            <label for="">Giây</label>
+        <input type="text" name="giay" value="{{$baithi->Giay}}">
+        </div>
+        <div class="wrap_form">
+            <label for="">Điểm</label>
+        <input type="text" name="diem" value="{{$baithi->Diem}}">
+        </div>
+        <div class="wrap_form">
+            <label for="">Kết Quả</label>
+        <input type="text" name="ketqua" value="{{$baithi->KetQua}}">
+        </div>
+        <div class="wrap_form">
+            <button id="btnSubmit" type="submit"  >Xác Nhận</button>
+        </div> 
+    </form>
+</body>
+<script>
+    function updateBaiThi(id){
+        var myform = new FormData($('#myform')[0]);
+        console.log(myform);
+        $.ajaxSetup({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+        });
+        $.ajax({
+            type:"POST",
+            url :"/admin/updateBaiThi/"+id,
+            data:myform,
+            processData:false,
+            cache:false,
+            contentType:false,
+            success: function(data){
+                alert("update thanh cong");
+                location.replace('/admin/listBaiThi');
+            },
+            
+        }   
+        )
+        
+        
+    }
+</script>
+</html>
